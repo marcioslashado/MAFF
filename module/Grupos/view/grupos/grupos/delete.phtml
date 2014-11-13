@@ -1,0 +1,64 @@
+<?php
+$title = 'Excluir Módulo';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+        <table class="table table-striped" id="datatable">
+            <thead>
+                    <?php
+                    if ($grupos->r_status == "Active") {
+                        $status = '<span class="badge badge-success">Ativo</span>';
+                    } elseif ($grupos->r_status == "Inactive") {
+                        $status = '<span class="badge badge-important">Inativo</span>';
+                    }
+                    $permission = explode(',', $grupos->per_amigavel);
+                    ?>
+                <tr>
+                    <th>ID</th>
+                    <th>Grupo/Regra</th>
+                    <th style="width: 150px;">Módulos</th>
+                    <th>Permissões/Actions</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($grupos->r_rid); ?></td>
+                        <td><?php echo $this->escapeHtml($grupos->r_nome); ?></td>
+                        <td>
+                            <?php
+                            $actions = explode(',', $grupos->re_amigavel);
+                            foreach ($actions as $key => $value) {
+                                echo $value . ' - ';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            foreach ($permission as $key => $value) {
+                                echo $value . ' / ';
+                            }
+                            ?>
+                        </td>
+                        <td><?php echo $status; ?></td>
+                    </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12 text-center">
+            <h2 class="sub-header" style="margin-bottom: 20px;">Confirma Exclusão?</h2>
+        </div>
+        <div class="col-md-12 text-center">
+            <?php $url = $this->url('grupos', array('action' => 'grupo-del', 'form_grupos' => $this->form_grupos)); ?>
+            <form action="<?php echo $url; ?>" method="post">
+                <div>
+                    <input type="hidden" name="form_grupos" value="<?php echo (int) $this->form_grupos; ?>" />
+                    <input type="submit" name="del" class="btn btn-primary" value="Confirmar" />
+                    <input type="submit" name="del" class="btn btn-danger" value="Cancelar" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

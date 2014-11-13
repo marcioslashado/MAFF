@@ -1,0 +1,105 @@
+<?php
+$title = 'Editando Usuário';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('users', array('action' => 'user-edit', 'form_users' => $this->form_users)));
+        $form->prepare();
+        echo $this->form()->openTag($form) . PHP_EOL;
+        ?>
+        <legend><?php echo $this->escapeHtml($title); ?></legend>
+        <?php echo $this->formHidden($form->get('form_users')) . PHP_EOL; ?>
+        <?php if ($this->mensagem) { ?>
+            <div style="margin-top:10px;"><div class="alert alert-success">Usuário alterado com sucesso! <a class="btn btn-success" href="<?php echo $this->url('usuarios'); ?>" data-original-title="" title=""><span data-icon="" class="glyphicon"></span> Retornar para Usuários</a></div></div>
+        <?php } ?>
+
+        <div class="col-md-3">
+            <label class="control-label" for="nome">Nome *</label>
+            <?php echo $this->formRow($form->get('form_nome')) . PHP_EOL; ?>
+            <span class="help-block">Nome <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o nome."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-3">
+            <label class="control-label" for="sobrenome">Sobrenome *</label>
+            <?php echo $this->formRow($form->get('form_sobrenome')) . PHP_EOL; ?>
+            <span class="help-block">Sobrenome <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o sobrenome."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-3">
+            <label class="control-label" for="email">Email *</label>
+            <div class="input-group">
+                <div class="input-group-addon">@</div>
+                <?php echo $this->formRow($form->get('form_email')) . PHP_EOL; ?>
+            </div>
+            <span class="help-block">Email <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite um email válido."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-3">
+            <label class="control-label" for="Senha">Senha *</label>
+            <?php echo $this->formRow($form->get('password')) . PHP_EOL; ?>
+            <span class="help-block">Digite uma senha <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite uma senha com no mínimo 6 dígitos devendo conter letras e números."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-5">
+            <label class="control-label" for="unorc">Grupo/Permissões *</label>
+            <select name="form_grupo" class="form-control input-sm" required="required" id="grupo">
+                <option value="">:: Selecione um grupo de Permissões ::</option>
+                <?php
+                foreach ($this->grupos as $row) {
+                    $permissao = $this->permissao;
+                    if (@array_search($row->g_rid, $permissao, TRUE) OR $row->g_rid == $permissao) {
+                        $select = 'selected';
+                    } else {
+                        $select = '';
+                    }
+                    echo '<option ' . $select . ' value="' . $row->g_rid . '">' . $row->g_rid . ' - ' . $row->g_role_name . '</option>' . PHP_EOL;
+                }
+                ?>
+            </select>
+            <span class="help-block">Selecione um grupo de Permissões <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um grupo de Permissõess"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-5">
+            <label class="control-label" for="unorc">Órgão</label>
+            <select multiple="" name="form_unorcs[]" class="form-control input-sm" id="unorcs">
+                <option value="11111" <?php if($this->unorcs == '11111'){echo 'selected';} ?>>TODOS OS ÓRGÃOS</option>
+                <option value="00000" <?php if($this->unorcs == '00000'){echo 'selected';} ?>>NENHUM ÓRGÃO</option>
+                <?php
+                foreach ($this->orgaos as $row) {
+                    $unorcs = explode(",", $this->unorcs);
+                    if (array_search($row->o_unorc, $unorcs, TRUE) OR $row->o_unorc == $unorcs[0]) {
+                        $select = 'selected';
+                    } else {
+                        $select = '';
+                    }
+                    echo '<option ' . $select . ' value="' . $row->o_unorc . '">' . $row->o_unorc . ' - ' . $row->o_descricao . '</option>' . PHP_EOL;
+                }
+                ?>
+            </select>
+            <span class="help-block">Se aplicável, selecione um órgão <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um ou mais órgãos"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-2">
+            <label class="control-label" for="email">Status *</label>
+<?php echo $this->formRow($form->get('form_status')) . PHP_EOL; ?>
+            <span class="help-block">Status <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um status."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-12">
+            <button class="btn btn-primary" name="adicionar" id="adicionar"><span data-icon="" class="glyphicon"></span> Atualizar</button>
+        </div>
+<?php echo $this->form()->closeTag($form) . PHP_EOL; ?>
+    </div>
+</div>
+
+<script>
+    $("#unorcs").multipleSelect({
+        multiple: false, //opções horizontais/em linha ou vertical
+        placeholder: 'Selecione os Módulos e suas Funções/Ações',
+        multipleWidth: '100%',
+        width: '100%'
+    });
+</script>

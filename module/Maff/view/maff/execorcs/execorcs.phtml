@@ -1,0 +1,43 @@
+<?php 
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Execuções Orçamentárias</legend> 
+    <div class="well">
+        <p><span class="glyphicon" data-icon=""></span> Nesta página você pode conferir todas as Execuções Orçamentárias referentes aos órgãos(Unidades Orçamentárias) disponíveis em seu cadastro. <br>Não é possível adicionar ou editar dados referentes às Execuções Orçamentárias. Caso necessite de alterações, entre em contato com o Administrador do Sistema!</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>Seq</th>
+                    <th>Mês</th>
+                    <th>Projeto</th>
+                    <th>Órgão</th>
+                    <th>Elemento</th>
+                    <th>Fonte</th>
+                    <th>Exec. Prevista</th>
+                    <th>Exec. Realizada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->paginator as $execs) : ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($execs->e_seq);?></td>
+                    <td><?php echo $this->escapeHtml($execs->e_mes);?></td>
+                    <td><?php echo $this->escapeHtml($execs->e_projeto);?> - <?php echo $this->escapeHtml($execs->desc_proj);?></td>
+                    <td><?php echo $this->escapeHtml($execs->o_id_orgao);?> - <?php echo $this->escapeHtml($execs->o_desc_orgao);?></td>
+                    <td><?php echo $this->escapeHtml($execs->e_elemento);?> - <?php echo $this->escapeHtml($execs->d_desc_elemento);?></td>
+                    <td><?php echo $this->escapeHtml($execs->e_fonte);?> - <?php echo $this->escapeHtml($execs->f_desc_fonte);?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($execs->e_orcprev), 2, ',', '.');?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($execs->e_orcrel), 2, ',', '.');?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <!-- IMPRIME PAGINAÇÃO -->
+    <?php
+            echo $this->paginationControl($paginator, 'Sliding', 'exec-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

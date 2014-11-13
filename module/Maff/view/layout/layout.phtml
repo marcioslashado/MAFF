@@ -1,0 +1,109 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('MAFF - Módulo de Acompanhamento e Execução Física e Financeira')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                //->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/datepicker.css')
+                ->prependStylesheet($this->basePath() . '/fonts/fontastic.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/style.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/bootstrap.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/maff/locales/bootstrap-datepicker.pt-BR.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap-datepicker.js')
+                ->prependFile($this->basePath() . '/js/maff/tab.js')
+                ->prependFile($this->basePath() . '/js/maff/jqGrid/js/jquery.jqGrid.min.js')
+                ->prependFile($this->basePath() . '/js/maff/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/modules/data.js')
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/highcharts.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/maff/jquery.min.js')
+        ;
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".container-fluid a").tooltip();
+                $(".navbar a").tooltip();
+            });
+            $(document).ajaxStart(function() {
+                $('.modal').show();
+            }).ajaxStop(function() {
+                $('.modal').hide();
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-default" role="navigation">
+            <?php if (isset($_SESSION['User']['userId'])){ ?>
+            <div class="container-fluid">
+                <div class="navbar-header tooltip-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Alternar navegação</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('maff'); ?>" data-toggle="tooltip" data-placement="bottom" data-original-title="Módulo de Acompanhamento e Execução Física e Financeira">MAFF</a>
+                </div>
+                <div class="collapse navbar-collapse tooltip-header">
+                    <ul class="nav navbar-nav">
+                        <li><a class="flat-button-label" href="<?php echo $this->url('maff'); ?>" data-toggle="tooltip" data-placement="bottom" data-original-title="Ir para Página Inicial"> <span class="glyphicon" data-icon="&#xe1d5;"></span> Início</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon" data-icon="&#xe0a2;"></span> <?php echo $_SESSION['User']['userNome'].' '.$_SESSION['User']['userSobrenome']; ?> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header"><?php echo $_SESSION['User']['userPermissao']; ?></li>
+                                <li class="dropdown-header"><span class="glyphicon" data-icon="&#xe18a;"></span> Último Acesso: <?php echo date("d/m/Y - H:i", strtotime($_SESSION['User']['userLastLogin'])); ?></li>
+                                <li class="divider"></li>
+                                <li><a href="#" data-toggle="tooltip" data-placement="left" data-original-title="Edite seus Dados"><span class="glyphicon" data-icon="&#xe174;"></span> Editar seus dados</a></li>
+                                <li><a href="<?php echo $this->url('users', array('action' => 'logout')); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Sair do sistema em segurança"><span class="glyphicon" data-icon="&#xe174;"></span> Sair do sistema</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+            <?php } ?>
+        </div>
+        <div class="page-header">
+            <h3>Planejamento Governamental</h3>
+            <h4>Monitoramento da implementação do governo</h4>
+        </div>
+
+        <div class="container-fluid">
+            <?php echo $this->content; ?>
+        </div> <!-- /container -->
+
+        <div id="footer">
+            <div class="container-fluid">
+                <img src="<?php echo $this->basePath() . '/img/logo_menor.png'; ?>" width="45" height="45" style="float:left; margin: 5px;">
+                <div style="float: left;">
+                    <p class="text-muted">
+                        IPLANFOR - Instituto de Planejamento de Fortaleza <br>
+                        Paço Municipal – Rua São José, nº 01 - CEP – 60060-170<br>
+                        Fone/Fax: (85)3105-1354 | iplanfor@fortaleza.ce.gov.br<br>
+                    </p>
+                </div>
+                <div id="desenvolvedor" style="float: right; text-align: right;"><p class="text-muted">Dev.: Marcio Seabra <br> Ver.: 1.0</p></div>
+            </div>
+        </div>
+        <div class="modal"></div>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

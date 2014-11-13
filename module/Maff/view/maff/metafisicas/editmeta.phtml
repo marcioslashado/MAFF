@@ -1,0 +1,90 @@
+<?php
+$title = 'Editando Meta física Realizada';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('metafisicas', array('action' => 'editmeta', 'form_codigo' => $this->form_codigo)));
+        $form->prepare();
+        echo $this->form()->openTag($form) . PHP_EOL;
+        ?>
+        <legend><?php echo $this->escapeHtml($title); ?></legend>
+        <?php echo $this->formHidden($form->get('form_codigo')) . PHP_EOL; ?>
+        <?php if ($this->mensagem) { ?>
+            <div style="margin-top:10px;"><div class="alert alert-success">Meta Física Atualizada com sucesso! <a class="btn btn-success" href="<?php echo $this->url('metafisicas'); ?>" data-original-title="" title=""><span data-icon="" class="glyphicon"></span> Retornar para Meta Físicas</a></div></div>
+        <?php } ?>
+
+        <div class="col-md-4">
+            <label class="control-label" for="projeto">Projeto</label>
+            <?php echo $this->formRow($form->get('form_projeto')) . PHP_EOL; ?>
+            <span class="help-block">Selecione um Projeto <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um Projeto para adicionar a Meta física Realizada"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-4">
+            <label class="control-label" for="elemento">Elemento de Despesa</label>
+            <?php echo $this->formRow($form->get('form_elemento')) . PHP_EOL; ?>
+            <span class="help-block">Selecione um Elemento de Despesa <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um Projeto para adicionar a Meta física Realizada"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-4">
+            <label class="control-label" for="fonte">Fonte</label>
+            <?php echo $this->formRow($form->get('form_fonte')) . PHP_EOL; ?>
+            <span class="help-block">Selecione uma Fonte <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um Projeto para adicionar a Meta física Realizada"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="ExecOrcPrev">Orç. Previsto(/ano)</label>
+            <div id="ExecOrcPrev"><?php echo $this->formRow($form->get('form_execprev')) . PHP_EOL; ?></div>
+            <span class="help-block">Orçamento Atual (R$) <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Valor atual do projeto. Não editável e serve somente para referência."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="ExecOrcPlan">Orç. Planejado(/mês)</label>
+            <?php echo $this->formRow($form->get('form_ExecOrcPlan')) . PHP_EOL; ?>
+            <span class="help-block">Valor formatado (R$) <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o valor do orçamento planejado no mês que você está cadastrando. Valor formatado em real. Ex.: 123.456,78"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="OrcExec">Orç. Executado(/mês)</label>
+            <?php echo $this->formRow($form->get('form_OrcExec')) . PHP_EOL; ?>
+            <span class="help-block">Valor formatado (R$) <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o valor do orçamento executado no mês que você está cadastrando. Valor formatado em real. Ex.: 123.456,78"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="metaprevista">Meta física Prevista</label>
+            <div id="metaprev"><?php echo $this->formRow($form->get('form_metaprev')) . PHP_EOL; ?></div>
+            <span class="help-block">Meta física Atual do projeto <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Meta física prevista para este projeto atualmente. Valor não editável e exibido apenas para referência."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="metafisica">M. Física Realizada(/mês)</label>
+            <?php echo $this->formRow($form->get('form_metarealizada')) . PHP_EOL; ?>
+            <span class="help-block">Qtde. da Meta física <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Valor da Meta física Realizada no mês que você está cadastrando."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="mesano">Mês/Ano</label>
+            <?php echo $this->formRow($form->get('form_mesano')) . PHP_EOL; ?>
+            <span class="help-block">Formato m-Y. Ex.: 06/2014 <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="left" data-original-title="Digite o Mês e o Ano no formato m/Y ou selecione-o no calendário. Ex.: 01/2014(Janeiro de 2014), 12/2015 (Dezembro de 2015), etc"> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-6">
+            <label class="control-label" for="DesAc">Desempenho de Ação</label>
+            <?php echo $this->formRow($form->get('form_DesAc')) . PHP_EOL; ?>
+            <span class="help-block">Descreva o Desempenho de Ação <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Descreva o Desempenho de Ação."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-6">
+            <label class="control-label" for="ResExec">Resumo Executivo</label>
+            <?php echo $this->formRow($form->get('form_ResExec')) . PHP_EOL; ?>
+            <span class="help-block">Descreva o Resumo Executivo <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Descreva o Resumo Executivo."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-primary" name="editar" id="editar"><span data-icon="" class="glyphicon"></span> Editar</button>
+        </div>
+        <?php echo $this->form()->closeTag($form) . PHP_EOL; ?>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#mesano').datepicker({
+            format: "mm/yyyy",
+            startView: 1,
+            minViewMode: 1,
+            language: "pt-BR",
+            autoclose: true
+        });
+    });
+</script>

@@ -1,0 +1,45 @@
+<?php 
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Metas físicas Realizadas</legend> 
+    <a href="<?php echo $this->url('metafisicas', array('action'=>'addmeta'));?>" data-toggle="tooltip" data-placement="right" data-original-title="Adicionar uma nova Meta física realizada" style="padding: 10px 0;"><button type="button" class="btn btn-primary"><span class="glyphicon" data-icon=""></span> Adicionar Nova</button></a>
+    <div class="table-responsive">
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Projeto - Descrição</th>
+                    <th>Orç.Previsto</th>
+                    <th>Orç.Planejado(/mês)</th>
+                    <th>Orç.Realizado(/mês)</th>
+                    <th>Meta física Prevista(/mês)</th>
+                    <th>Meta física Realizada(/mês)</th>
+                    <th>Período</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->paginator as $metas) : ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($metas->m_codigo);?></td>
+                    <td><?php echo $this->escapeHtml($metas->m_projeto);?> - <?php echo $this->escapeHtml($metas->p_desc);?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->e_execprev), 2, ',', '.');?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->m_execorcplan), 2, ',', '.');?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->m_execorcreal), 2, ',', '.');?></td>
+                    <td style="text-align: center;"><?php echo $this->escapeHtml($metas->p_meta);?></td>
+                    <td style="text-align: center;"><?php echo $this->escapeHtml($metas->m_metarealizada);?></td>
+                    <td><?php echo $this->escapeHtml($metas->m_periodo);?></td>
+                    <td>
+                        <a href="<?php echo $this->url('metafisicas',array('action'=>'editmeta', 'form_codigo' => $metas->m_codigo));?>" data-toggle="tooltip" data-placement="left" data-original-title="Editar esta Meta"><span class="glyphicon" data-icon=""></span></a>
+                        <a href="<?php echo $this->url('metafisicas',array('action'=>'deletemeta', 'form_codigo' => $metas->m_codigo));?>" data-toggle="tooltip" data-placement="left" data-original-title="Excluir esta Meta"><span class="glyphicon" data-icon="&#xe1d6;"></span></a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+            echo $this->paginationControl($paginator, 'Sliding', 'meta-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

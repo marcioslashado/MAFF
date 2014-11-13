@@ -1,0 +1,42 @@
+<?php 
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Projetos Prioritários</legend> 
+<div class="well">
+        <p><span class="glyphicon" data-icon=""></span> Nesta página você pode conferir um resumo cumulativo de todos os projetos prioritários. Não há filtros de Elementos nem fontes, apenas o cumulativo relativo ao projeto.</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Projeto - Descrição</th>
+                    <th>Orç.Prev.</th>
+                    <th>Orç.Plan.(/soma)</th>
+                    <th>Orç.Real.(/soma)</th>
+                    <th>Meta F. Prev.(/soma)</th>
+                    <th>Meta F. Real.(/soma)</th>
+                    <th>Período</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->paginator as $metas) : ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($metas->m_codigo);?></td>
+                    <td style="max-width: 450px;"><?php echo $this->escapeHtml($metas->m_projeto);?> - <?php echo $this->escapeHtml($metas->p_desc);?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->e_execprev), 2, ',', '.');?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->m_execorcplan), 2, ',', '.');?></td>
+                    <td>R$<?php echo number_format($this->escapeHtml($metas->m_execorcreal), 2, ',', '.');?> <?php echo $metas->estado_orc;?></td>
+                    <td style="text-align: center;"><?php echo $this->escapeHtml($metas->p_meta);?></td>
+                    <td style="text-align: center;"><?php echo $this->escapeHtml($metas->m_metarealizada); ?> <?php echo $metas->estado_meta;?></td>
+                    <td><?php echo $this->escapeHtml($metas->prio_periodo); ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+            echo $this->paginationControl($paginator, 'Sliding', 'prioridades-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

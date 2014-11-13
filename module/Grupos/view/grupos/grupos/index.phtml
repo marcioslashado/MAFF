@@ -1,0 +1,60 @@
+<?php
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Grupos de Usuários</legend> 
+    <a href="<?php echo $this->url('grupos', array('action' => 'grupo-add')); ?>" data-toggle="tooltip" data-placement="right" data-original-title="Adicionar um novo usuário" style="padding: 10px 0;"><button type="button" class="btn btn-primary"><span class="glyphicon" data-icon=""></span> Adicionar Novo</button></a>
+    <div class="table-responsive">
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Grupo/Regra</th>
+                    <th style="width: 150px;">Módulos</th>
+                    <th>Permissões/Actions</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->paginator as $grupos) : ?>
+                    <?php
+                    if ($grupos->r_status == "Active") {
+                        $status = '<span class="badge badge-success">Ativo</span>';
+                    } elseif ($grupos->r_status == "Inactive") {
+                        $status = '<span class="badge badge-important">Inativo</span>';
+                    }
+                    $permission = explode(',', $grupos->per_amigavel);
+                    $resource = explode(',', $grupos->re_amigavel);
+                    ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($grupos->r_rid); ?></td>
+                        <td><?php echo $this->escapeHtml($grupos->r_nome); ?></td>
+                        <td>
+                            <?php
+                            foreach ($resource as $key => $value) {
+                                echo $value . '<br>';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            foreach ($permission as $key => $value) {
+                                echo $value . ' / ';
+                            }
+                            ?>
+                        </td>
+                        <td><?php echo $status; ?></td>
+                        <td>
+                            <a href="<?php echo $this->url('grupos', array('action' => 'grupo-edit', 'form_grupos' => $grupos->r_rid)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Editar"><span class="glyphicon" data-icon=""></span></a>
+                            <a href="<?php echo $this->url('grupos', array('action' => 'grupo-del', 'form_grupos' => $grupos->r_rid)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Excluir"><span class="glyphicon" data-icon="&#xe1d6;"></span></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+    echo $this->paginationControl($paginator, 'Sliding', 'grupos-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

@@ -1,0 +1,461 @@
+<h3>Relatórios</h3>
+<hr>
+<div class="container-fluid">
+    <form id="form_filtro" name="form_filtro" method="POST" action="<?php echo $this->url('metafisicas', array('action' => 'relatorios')); ?>" class="">
+        <!-- Lista Orgãos disponíveis para o usuário -->
+        <div id="orgaos" class="col-md-3">
+            <label class="control-label" for="unorc">Unidade Orçamentária</label>
+            <select name="unorc" class="form-control input-sm" required="required" id="unorc">
+                <option value="">:: Selecione um Órgão ::</option>
+                <?php
+                foreach ($this->res as $row) {
+                    echo '<option value="' . $row->o_unorc . '">' . $row->o_unorc . ' - ' . $row->o_desc . '</option>' . PHP_EOL;
+                }
+                ?>
+            </select>
+            <span class="help-block">Selecione um Órgão <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Você pode ter uma ou mais unidades disponíveis de acordo com seu perfil de usuário. Caso haja mais de uma unidade, selecione-a."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <!-- Lista Projetos -->
+        <div id="load_projetos" class="col-md-3">   
+            <label class="control-label" for="projeto">Projeto</label>
+            <?php echo $this->formRow($form->get('form_projeto')) . PHP_EOL; ?>
+            <span class="help-block">Selecione um Projeto <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um dos Projetos disponíveis."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <!-- Lista Elemento de Despesa -->
+        <div id="load_eldespesa" class="col-md-3">   
+            <label class="control-label" for="elemento">Elemento de Despesa</label>
+            <?php echo $this->formRow($form->get('form_elemento')) . PHP_EOL; ?>
+            <span class="help-block">Selecione um Elemento de Despesa <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um dos Elementos de Despesa disponíveis."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <!-- Lista Fontes -->
+        <div id="load_fontes" class="col-md-3">   
+            <label class="control-label" for="fontes">Fonte</label>
+            <?php echo $this->formRow($form->get('form_fonte')) . PHP_EOL; ?>
+            <span class="help-block">Selecione uma Fonte <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione uma das Fontes disponíveis."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-3">
+            <label class="control-label" for="inidata">Entre as Datas</label>
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-sm form-control" name="inidata" id="inidata" />
+                <span class="input-group-addon">até</span>
+                <input type="text" class="input-sm form-control" name="fimdata" id="fimdata" />
+            </div>
+            <span class="help-block">Selecione as Datas (opcional) <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um intervalo de datas caso queira refinar seu relatório."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-12" style="margin: 22px 0;">
+            <button id="filtrar" name="filtrar" value="ok" class="btn btn-primary"><span class="glyphicon" data-icon=""></span> Concluir Filtro</button>
+        </div>
+    </form>
+
+    <?php
+    if ($this->resultado) {
+        foreach ($this->resultado as $retorno) {
+            ?>
+            <div id="table_relatorios" class="col-md-12">
+                <table class="table table-bordered table-condensed table-striped" id="testando">
+                    <tbody><tr>
+                            <th scope="row">Período:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->m_periododesc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Projeto:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->m_projeto); ?> - <?php echo $this->escapeHtml($retorno->p_descprojeto); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Órgão:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->p_unorc); ?> - <?php echo $this->escapeHtml($retorno->un_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Programa:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->p_programa); ?> - <?php echo $this->escapeHtml($retorno->pr_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ação:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->p_acao); ?> - <?php echo $this->escapeHtml($retorno->ac_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Função:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->p_funcao); ?> - <?php echo $this->escapeHtml($retorno->f_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SubFunção:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->p_subFuncao); ?> - <?php echo $this->escapeHtml($retorno->sf_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Elemento de Despesa:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->m_eldespesa); ?> - <?php echo $this->escapeHtml($retorno->el_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fonte:</th>
+                            <td colspan="5"><?php echo $this->escapeHtml($retorno->m_fonte); ?> - <?php echo $this->escapeHtml($retorno->ft_desc); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Localização:</th>
+                            <td><?php echo $this->escapeHtml($retorno->p_locali); ?></td>
+                            <th scope="row">Esfera:</th>
+                            <td><?php echo $this->escapeHtml($retorno->p_esfera); ?></td>
+                            <th scope="row">Regional:</th>
+                            <td><?php echo $this->escapeHtml($retorno->p_regional); ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Meta física Prevista:</th>
+                            <td><?php echo $this->escapeHtml($retorno->p_meta); ?></td>
+                            <th scope="row">Meta física Realizada:</th>
+                            <td><?php echo $this->escapeHtml($retorno->m_metarealizada); ?></td>
+                            <th scope="row">Meta física Realizada(%):</th>
+                            <td><?php echo $retorno->estado_meta; ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Exec.Orçamentária Prevista (ano):</th>
+                            <td>R$<?php echo number_format($this->escapeHtml($retorno->e_execprev), 2, ',', '.'); ?></td>
+                            <th scope="row">Exec.Orçamentária Planejada (mês):</th>
+                            <td>R$<?php echo number_format($this->escapeHtml($retorno->m_execorcplan), 2, ',', '.'); ?></td>
+                            <th scope="row">Exec.Orçamentária Realizada (mês):</th>
+                            <td>R$<?php echo number_format($this->escapeHtml($retorno->m_execorcreal), 2, ',', '.'); ?> <?php echo $retorno->estado_orc; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="anotacoes" class="table col-md-12">
+                    <legend>Anotações - Justificativas</legend>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#desempenho" data-toggle="tab" data-placement="top" data-original-title="Desempenho de Ação">Desempenho de Ação</a></li>
+                        <li class=""><a href="#resumo" data-toggle="tab" data-placement="top" data-original-title="Resumo Executivo">Resumo Executivo</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <?php
+                    $datas = explode(',', $retorno->m_periodo);
+                    $DesAc = explode('/--/', $retorno->m_desac);
+                    $ResExec = explode('/--/', $retorno->m_resexec);
+                    $DataDescAc = array_combine($datas, $DesAc); //Combina as Datas com Anotações
+                    $DataResExec = array_combine($datas, $ResExec); //Combina as Datas com Anotações
+
+                    //CUMULATIVOS
+                    $total_plan = array();
+                    $SumExec = 0;
+                    $original_plan = explode(",", $retorno->m_orcplanconcat);
+                    foreach ($original_plan as $num_plan) {
+                        $SumExec += $num_plan;
+                        $total_plan[] = $SumExec;
+                    }
+                    
+                    $total_real = array();
+                    $SumExec1 = 0;
+                    $original_real = explode(",", $retorno->m_orcrealconcat);
+                    foreach ($original_real as $num_real) {
+                        $SumExec1 += $num_real;
+                        $total_real[] = $SumExec1;
+                    }
+                    
+                    //Tratamento de Datas para o Gráfico por Período (yyyy-m-d para m/yyyy)
+                    $periodo = array();
+                    foreach ($datas as $data){
+                        $periodo[] = date("m/Y", strtotime($data));
+                    }
+                    ?>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="desempenho">
+                            <div class="table-responsive">
+                                <?php
+                                foreach ($DataDescAc as $key => $value) {
+                                    echo '<legend class="menor">' . date("m/Y", strtotime($key)) . '</legend>';
+                                    echo '<div>' . $value . '</div>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="resumo">
+                            <div class="table-responsive">
+                                <?php
+                                foreach ($DataResExec as $key => $value) {
+                                    echo '<legend class="menor">' . date("m/Y", strtotime($key)) . '</legend>';
+                                    echo '<div>' . $value . '</div>';
+                                }
+                                ?>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function() {
+                        $('#exec-orc-rs').highcharts({
+                            data: {
+                                table: document.getElementById('exec-orc')
+                            },
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Exec. Orçamentária Prevista/Realizada (R$)'
+                            },
+                            yAxis: {
+                                allowDecimals: true,
+                                title: {
+                                    text: 'Montante (R$)'
+                                },
+                                labels: {
+                                    format: 'R${value:,.2f}'
+                                }
+                            },
+                            xAxis: {},
+                            credits: {
+                                enabled: false
+                            },
+                            tooltip: {
+                                pointFormat: '<b>R${point.y:,.2f}</b>'
+                            },
+                            plotOptions: {
+                                column: {
+                                    dataLabels: {
+                                        enabled: false
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                    $(function() {
+                        $('#exec-orc-pr').highcharts({
+                            chart: {
+                                zoomType: 'xy'
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            title: {
+                                text: 'Exec. Orçamentária por Período (acumulado)'
+                            },
+                            xAxis: {
+                                categories: <?php echo json_encode($periodo); ?>
+                            },
+                            yAxis: {
+                                allowDecimals: true,
+                                title: {
+                                    text: 'Montante (R$)'
+                                },
+                                labels: {
+                                    format: 'R${value:,.2f}',
+                                    overflow: 'justify'
+                                },
+                            },
+                            plotOptions: {
+                                line: {
+                                    dataLabels: {
+                                        enabled: true
+                                    },
+                                    enableMouseTracking: false
+                                }
+                            },
+                            series: [{
+                                    name: 'Previsão (Ano)',
+                                    type: 'line',
+                                    data: [<?php echo $retorno->e_execprevconcat; ?>]
+
+                                }, {
+                                    name: 'Planejado (acumulado)',
+                                    type: 'line',
+                                    data: <?php echo json_encode($total_plan); ?>
+
+                                }, {
+                                    name: 'Realizado (acumulado)',
+                                    type: 'line',
+                                    data: <?php echo json_encode($total_real); ?>
+
+                                }, {
+                                    name: 'Planejado (mês)',
+                                    type: 'column',
+                                    data: [<?php echo $retorno->m_orcplanconcat; ?>]
+
+                                }, {
+                                    name: 'Realizado (mês)',
+                                    type: 'column',
+                                    data: [<?php echo $retorno->m_orcrealconcat; ?>]
+                                }]
+                        });
+                    });
+                </script>
+                <div id="graficos" class="col-md-12">
+                    <!-- Tabela responsável pelo carregamento do Gráfico -->
+                    <table class="hidden" id="exec-orc">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Exec. Orçamentária Prevista</th>
+                                <th>Exec. Orçamentária Realizada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Exec. Orçamentária Prevista</th>
+                                <td><?php echo $this->escapeHtml($retorno->e_execprev); ?></td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th>Exec. Orçamentária Realizada</th>
+                                <td>0</td>
+                                <td><?php echo $this->escapeHtml($retorno->m_execorcreal); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <legend>Gráficos</legend>
+                    <div class="col-md-5">
+                        <div id="exec-orc-rs" style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <div id="exec-orc-pr" style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    ?>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#inidata').prop("disabled", true);
+        $('#fimdata').prop("disabled", true);
+    });
+    $('#unorc').change(function() {
+        var unorc_id = $('#unorc').val();
+        if (unorc_id === '') {
+            $('#projeto').html('<option value="">:: Primeiro selecione um Órgão ::</option>');
+            $('#elemento').html('<option value="">:: Primeiro selecione um Projeto ::</option>');
+            $('#fonte').html('<option value="">:: Primeiro selecione um Elemento ::</option>');
+            $('#metaprev').html('<input name="metaprev" type="text" id="metaprev" class="form-control input-sm" disabled="disabled" value="">');
+            $('#ExecOrcPrev').html('<input name="ExecOrcPrev" type="text" id="ExecOrcPrev" class="form-control input-sm" disabled="disabled" value="">');
+        } else {
+            get_projetos(unorc_id);
+        }
+    });
+    $('#projeto').change(function() {
+        var projeto_id = $('#projeto').val();
+        if (projeto_id === '') {
+            $('#elemento').html('<option value="">:: Primeiro selecione um Projeto ::</option>');
+            $('#fonte').html('<option value="">:: Primeiro selecione um Elemento ::</option>');
+            $('#metaprev').html('<input name="metaprev" type="text" id="metaprev" class="form-control input-sm" disabled="disabled" value="">');
+            $('#ExecOrcPrev').html('<input name="ExecOrcPrev" type="text" id="ExecOrcPrev" class="form-control input-sm" disabled="disabled" value="">');
+        } else {
+            get_elementos(projeto_id);
+        }
+    });
+    $('#elemento').change(function() {
+        var elemento_id = $('#elemento').val();
+        if (elemento_id === '') {
+            $('#fonte').html('<option value="">:: Primeiro selecione um Elemento ::</option>');
+            $('#metaprev').html('<input name="metaprev" type="text" id="metaprev" class="form-control input-sm" disabled="disabled" value="">');
+            $('#ExecOrcPrev').html('<input name="ExecOrcPrev" type="text" id="ExecOrcPrev" class="form-control input-sm" disabled="disabled" value="">');
+        } else {
+            get_fontes(elemento_id);
+        }
+    });
+    $('#fonte').change(function() {
+        var fonte_id = $('#fonte').val();
+        var elemento_id = $('#elemento').val();
+        var projeto_id = $('#projeto').val();
+        if (fonte_id === '') {
+
+        } else {
+            get_periodo(projeto_id, elemento_id, fonte_id);
+        }
+    });
+    function get_projetos(unorc_id) {
+        var unorc = $('#unorc').val();
+        $.ajax('<?php echo $this->url('metafisicas', array('action' => 'get_projetos_rel')); ?>?unorc_id=' + unorc, {
+            type: 'get',
+            dataType: 'json',
+            data: {
+                unorc_id: unorc_id
+            },
+            success: function(data) {
+                $('#projeto').html('');
+                $.each(data, function(index, projeto) {
+                    $('#projeto').append('<option value="' + projeto.valor + '">' + projeto.label + '</option>');
+                });
+            },
+            error: function(error) {
+            }
+        });
+    }
+    function get_elementos(projeto_id) {
+        var projeto = $('#projeto').val();
+        $.ajax('<?php echo $this->url('metafisicas', array('action' => 'get_elementos_rel')); ?>?projeto_id=' + projeto, {
+            type: 'get',
+            dataType: 'json',
+            data: {
+                projeto_id: projeto_id
+            },
+            success: function(data) {
+                $('#elemento').html('');
+                $.each(data, function(index, projeto) {
+                    $('#elemento').append('<option value="' + projeto.valor + '">' + projeto.label + '</option>');
+                });
+            },
+            error: function(error) {
+            }
+        });
+    }
+    function get_fontes(elemento_id) {
+        var unorc = $('#unorc').val();
+        var projeto = $('#projeto').val();
+        var elemento = $('#elemento').val();
+        var projeto = $('#fonte').val();
+        $.ajax('<?php echo $this->url('metafisicas', array('action' => 'get_fontes_rel')); ?>?elemento_id=' + elemento, {
+            type: 'get',
+            dataType: 'json',
+            data: {
+                elemento_id: elemento_id
+            },
+            success: function(data) {
+                $('#fonte').html('');
+                $.each(data, function(index, elemento) {
+                    $('#fonte').append('<option value="' + elemento.valor + '">' + elemento.label + '</option>');
+                });
+            },
+            error: function(error) {
+            }
+        });
+    }
+
+    function get_periodo(projeto_id, elemento_id, fonte_id) {
+        var elemento_id = $('#elemento').val();
+        var fonte_id = $('#fonte').val();
+        var projeto_id = $('#projeto').val();
+        $.ajax('<?php echo $this->url('metafisicas', array('action' => 'get_periodo')); ?>?projeto_id=' + projeto_id + '&elemento_id=' + elemento_id + '&fonte_id=' + fonte_id, {
+            type: 'get',
+            dataType: 'json',
+            data: {
+                elemento_id: elemento_id
+            },
+            success: function(data) {
+            $('#inidata').prop("disabled", false);
+            $('#fimdata').prop("disabled", false);
+                $.each(data, function(index, periodo) {
+                    $('#inidata').prop("value", "" + periodo.inidata + "");
+                    $('#fimdata').prop("value", "" + periodo.fimdata + "");
+                    $('.input-daterange').datepicker({
+                        format: "mm/yyyy",
+                        startDate: "" + periodo.inidata + "",
+                        endDate: "" + periodo.fimdata + "",
+                        startView: 1,
+                        minViewMode: 1,
+                        language: "pt-BR",
+                        autoclose: true
+                    });
+                });
+            },
+            error: function(error) {
+            }
+        });
+    }
+
+    $('#myTab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+</script>

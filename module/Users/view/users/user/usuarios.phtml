@@ -1,0 +1,63 @@
+<?php
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Usuários</legend> 
+    <a href="<?php echo $this->url('users', array('action' => 'user-add')); ?>" data-toggle="tooltip" data-placement="right" data-original-title="Adicionar um novo usuário" style="padding: 10px 0;"><button type="button" class="btn btn-primary"><span class="glyphicon" data-icon=""></span> Adicionar Novo</button></a>
+    <div class="table-responsive">
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome/Sobrenome</th>
+                    <th>Email</th>
+                    <th>Grupo/Função</th>
+                    <th>Órgão(s)</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->paginator as $users) : ?>
+                    <?php
+                    if ($users->u_status == "Active") {
+                        $status = '<span class="badge badge-success">Ativo</span>';
+                    } elseif ($users->u_status == "Inactive") {
+                        $status = '<span class="badge badge-important">Inativo</span>';
+                    }
+                    ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($users->u_id); ?></td>
+                        <td><?php echo $this->escapeHtml($users->u_first_name); ?> <?php echo $this->escapeHtml($users->u_last_name); ?></td>
+                        <td><?php echo $this->escapeHtml($users->u_email); ?></td>
+                        <td><?php echo $this->escapeHtml($users->r_nome); ?></td>
+                        <td>
+                            <?php
+                            if ($users->u_orgaos == '11111') {
+                                echo 'TODOS OS ÓRGÃOS';
+                            } else if ($users->u_orgaos == '00000') {
+                                echo 'NENHUM ÓRGÃO';
+                            } else {
+                                $un_id = explode(',', $orgaos->o_unorc);
+                                $un_desc = explode(',', $orgaos->o_descricao);
+                                $array = array_combine($un_id, $un_desc);
+                                foreach ($array as $key => $value) {
+                                    echo $key . ' - ' . $value . '<br>';
+                                }
+                            }
+                            ?>
+                        </td>
+                        <td><?php echo $status; ?></td>
+                        <td>
+                            <a href="<?php echo $this->url('users', array('action' => 'user-edit', 'form_users' => $users->u_id)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Editar"><span class="glyphicon" data-icon=""></span></a>
+                            <a href="<?php echo $this->url('users', array('action' => 'user-del', 'form_users' => $users->u_id)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Excluir"><span class="glyphicon" data-icon="&#xe1d6;"></span></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+    echo $this->paginationControl($paginator, 'Sliding', 'user-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

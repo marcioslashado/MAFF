@@ -1,0 +1,74 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('MAFF - Módulo de Acompanhamento e Execução Física e Financeira')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                //->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                ->prependStylesheet($this->basePath() . '/css/multiple-select.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/datepicker.css')
+                ->prependStylesheet($this->basePath() . '/fonts/fontastic.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/style.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/bootstrap.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/jquery.multiple.select.js')
+                ->prependFile($this->basePath() . '/js/maff/locales/bootstrap-datepicker.pt-BR.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap-datepicker.js')
+                ->prependFile($this->basePath() . '/js/maff/tab.js')
+                ->prependFile($this->basePath() . '/js/maff/jqGrid/js/jquery.jqGrid.min.js')
+                ->prependFile($this->basePath() . '/js/maff/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/modules/data.js')
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/highcharts.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/maff/jquery.min.js')
+        ;
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".container-fluid a").tooltip();
+                $(".navbar a").tooltip();
+            });
+            $(document).ajaxStart(function() {
+                $('.modal').show();
+            }).ajaxStop(function() {
+                $('.modal').hide();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <?php echo $this->content; ?>
+        </div> <!-- /container -->
+
+        <div id="footer">
+            <div class="container-fluid">
+                <img src="<?php echo $this->basePath() . '/img/logo_menor.png'; ?>" width="45" height="45" style="float:left; margin: 5px;">
+                <div style="float: left;">
+                    <p class="text-muted">
+                        IPLANFOR - Instituto de Planejamento de Fortaleza <br>
+                        Paço Municipal – Rua São José, nº 01 - CEP – 60060-170<br>
+                        Fone/Fax: (85)3105-1354 | iplanfor@fortaleza.ce.gov.br<br>
+                    </p>
+                </div>
+                <div id="desenvolvedor" style="float: right; text-align: right;"><p class="text-muted">Dev.: Marcio Seabra <br> Ver.: 1.0</p></div>
+            </div>
+        </div>
+        <div class="modal"></div>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

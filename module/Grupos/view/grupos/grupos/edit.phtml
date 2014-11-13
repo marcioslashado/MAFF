@@ -1,0 +1,53 @@
+<?php
+$title = 'Editando Grupo/Regras';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('grupos', array('action' => 'grupo-edit', 'form_grupos' => $this->form_grupos)));
+        $form->prepare();
+        echo $this->form()->openTag($form) . PHP_EOL;
+        ?>
+        <legend><?php echo $this->escapeHtml($title); ?></legend>
+        <?php echo $this->formHidden($form->get('form_grupos')) . PHP_EOL; ?>
+        <?php if ($this->mensagem) { ?>
+            <div style="margin-top:10px;"><div class="alert alert-success">Grupo atualizado com sucesso! <a class="btn btn-success" href="<?php echo $this->url('grupos'); ?>" data-original-title="" title=""><span data-icon="" class="glyphicon"></span> Retornar para Grupos</a></div></div>
+        <?php } ?>
+
+        <div class="col-md-10">
+            <label class="control-label" for="nome">Nome do Grupo *</label>
+            <?php echo $this->formRow($form->get('grupo_titulo')) . PHP_EOL; ?>
+            <span class="help-block">Nome do Grupo <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite um nome de exibição para este grupo/regra."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+            
+        <div class="col-md-2">
+            <label class="control-label" for="modulo_status">Status *</label>
+                <?php echo $this->formRow($form->get('modulo_status')) . PHP_EOL; ?>
+            <span class="help-block">Situação do Módulo <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um status."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-11">
+            <label class="control-label" for="grupo_modulo">Módulos e Actions*</label>
+            <?php echo $this->formRow($form->get('grupo_modulo')) . PHP_EOL; ?>
+            <span class="help-block">Selecione os Módulos e as Actions de cada um <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Selecione um ou mais módulos para adicionar à este grupo."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-1">
+            <label class="control-label" for="grupo_modulo">&nbsp;</label>
+            <button class="btn btn-primary" name="adicionar" id="adicionar"><span data-icon="" class="glyphicon"></span> Atualizar</button>
+        </div>
+        <?php echo $this->form()->closeTag($form) . PHP_EOL; ?>
+    </div>
+</div>
+
+    <script src="jquery.multiple.select.js"></script>
+    <script>
+        $("#grupo_modulo").multipleSelect({
+            multiple: false,
+            placeholder: 'Selecione os Módulos e suas Funções/Ações',
+            multipleWidth: '100%',
+            width: '100%'
+        });
+    </script>

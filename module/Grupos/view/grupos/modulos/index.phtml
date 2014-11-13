@@ -1,0 +1,42 @@
+<?php
+$url_order = 'ASC';  // the following lines
+?>
+<div class="container-fluid">
+    <legend>Módulos e Actions</legend> 
+    <a href="<?php echo $this->url('modulos', array('action' => 'modulo-add')); ?>" data-toggle="tooltip" data-placement="right" data-original-title="Adicionar um novo usuário" style="padding: 10px 0;"><button type="button" class="btn btn-primary"><span class="glyphicon" data-icon=""></span> Adicionar Novo</button></a>
+    <div class="table-responsive">
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th style="width: 150px;">Módulo</th>
+                    <th>Actions/Funções</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->paginator as $modulos) : ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($modulos->r_id); ?></td>
+                        <td><?php echo $this->escapeHtml($modulos->r_amigavel); ?></td>
+                        <td>
+                            <?php
+                            $actions = explode(',', $modulos->p_amigavel);
+                            foreach ($actions as $key => $value) {
+                                echo $value . ' - ';
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <a href="<?php echo $this->url('modulos', array('action' => 'modulo-edit', 'form_modulos' => $modulos->r_id)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Editar"><span class="glyphicon" data-icon=""></span></a>
+                            <a href="<?php echo $this->url('modulos', array('action' => 'modulo-del', 'form_modulos' => $modulos->r_id)); ?>" data-toggle="tooltip" data-placement="left" data-original-title="Excluir"><span class="glyphicon" data-icon="&#xe1d6;"></span></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+    echo $this->paginationControl($paginator, 'Sliding', 'modulos-paginator', array('order_by' => $order_by, 'order' => $order));
+    ?>
+</div>

@@ -1,0 +1,77 @@
+<?php
+$title = 'Adicionando novo Módulo';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('modulos', array('action' => 'modulo-add')));
+        $form->prepare();
+        echo $this->form()->openTag($form) . PHP_EOL;
+        ?>
+        <legend><?php echo $this->escapeHtml($title); ?></legend>
+        <?php echo $this->formHidden($form->get('form_modulos')) . PHP_EOL; ?>
+        <?php if ($this->mensagem) { ?>
+            <div style="margin-top:10px;"><div class="alert alert-success">Módulo adicionado com sucesso! <a class="btn btn-success" href="<?php echo $this->url('modulos'); ?>" data-original-title="" title=""><span data-icon="" class="glyphicon"></span> Retornar para Modulos</a></div></div>
+        <?php } ?>
+
+        <div class="col-md-6">
+            <label class="control-label" for="modulo_controller">Controller do Módulo *</label>
+            <?php echo $this->formRow($form->get('modulo_controller')) . PHP_EOL; ?>
+            <span class="help-block">Ex.: <i>Application\Controller\Index</i> <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o caminho do controller deste módulo."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-6">
+            <label class="control-label" for="modulo_titulo">Título do Módulo *</label>
+            <?php echo $this->formRow($form->get('modulo_titulo')) . PHP_EOL; ?>
+            <span class="help-block">Ex.: <i>Módulo Application</i> <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o título ao qual este módulo deverá ser apresentado."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-12">
+            <button class="add_field_button">Add mais Actions</button>
+        </div>
+
+        <div class="col-md-6">
+            <label class="control-label" for="modulo_action">Rota da Action *</label>
+            <?php echo $this->formRow($form->get('modulo_action[]')) . PHP_EOL; ?>
+            <span class="help-block">Ex.: <i>adicionar-usuario</i> <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite a rota para esta Action/Função."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+        <div class="col-md-6">
+            <label class="control-label" for="titulo_action">Título da Action *</label>
+            <?php echo $this->formRow($form->get('titulo_action[]')) . PHP_EOL; ?>
+            <span class="help-block">Ex.: <i>Adicionar Usuário</i> <a class="flat-button-label" href="#" data-toggle="tooltip" data-placement="bottom" data-original-title="Digite o título ao qual esta Action deverá ser apresentada."> <span class="glyphicon" data-icon=""></span></a></span>  
+        </div>
+
+            <div class="campos-dinamicos"></div>
+
+        <div class="col-md-12">
+            <button class="btn btn-primary" name="adicionar" id="adicionar"><span data-icon="" class="glyphicon"></span> Adicionar</button>
+        </div>
+        <?php echo $this->form()->closeTag($form) . PHP_EOL; ?>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var max_fields = 100; //maximum input boxes allowed
+        var wrapper = $(".campos-dinamicos"); //Fields wrapper
+        var add_button = $(".add_field_button"); //Add button ID
+
+        var x = 1; //initlal text box count
+        $(add_button).click(function(e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div><div class="col-md-6"><label class="control-label" for="modulo_action">Rota da Action *</label><input name="modulo_action[]" type="text" id="modulo_action" class="form-control input-sm" placeholder="Action do Módulo"></div> <div class="col-md-5"><label class="control-label" for="titulo_action">Título da Action *</label><input name="titulo_action[]" type="text" id="titulo_action" class="form-control input-sm" placeholder="Título da Action"></div> <a href="#" class="remove_field col-md-1">Remover</a> </div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent("div").remove();
+            x--;
+        })
+    });
+</script>

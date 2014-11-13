@@ -1,0 +1,61 @@
+<?php
+$form = $this->loginForm;
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->formElement($form->get('loginCsrf'));
+$errorMessage = $this->flashMessenger()->getMessages();
+?>
+<h3 class="form-signin-heading">Formulário de Acesso</h3>
+<div class="login-bottom">
+
+	<div class="general-form-container clearfix">
+	<div>
+	<?php if(isset($errorMessage) && count($errorMessage)) :
+        $errorMessage = $errorMessage[0];
+        ?>
+        <div class="server-error padding-bottom_30">
+            <ul>
+                <?php if(isset($errorMessage)) {?>
+                <?php foreach ($errorMessage as $type => $msg) : ?>
+                <li><span class="<?php echo $type; ?>"><?php echo $msg; ?></span></li>
+                <?php endforeach; ?>
+                <?php }?>
+            </ul>
+        </div>
+        <?php endif; ?>
+			<div class="form-row">
+				<div class="form-fields full-width-half">
+				    <?php echo $this->formelement($form->get('userName'));?>
+				</div>
+				<div>
+				 <?php echo $this->formElementerrors($form->get('userName')); ?>
+				</div>
+			</div>
+			<div class="form-row">
+				<label class="form-label-half"><?php echo $this->formlabel($form->get('password'));?></label>
+				<div class="form-fields full-width-half">
+					<?php echo $this->formelement($form->get('password'));?>
+				</div>
+				<div>
+				 <?php echo $this->formElementerrors($form->get('password')); ?>
+				</div>
+			</div>
+			<div class="form-row clearfix">
+				<div class="sign-btn" style="padding-right:3px;">
+					<?php echo $this->formElement ( $form->get ( 'submit' ) )?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="login-footer clearfix">
+		<div class="form-row">
+			<a class="forgot-link" href="<?php echo $this->url('users', array('action' => 'forgot-password'));?>">Esqueceu sua senha?</a>
+			<label class="checkbox"><?php echo $this->formElement ( $form->get ( 'rememberMe' ) )?> Lembrar-me neste computador.</label>
+		</div>
+		<div class="form-row clearfix float-l">
+			<label class="checkbox"><?php echo $this->formElement ( $form->get ( 'changePassword' ) )?> Alterar senha após login.</label>
+		</div>
+	</div>
+
+</div>

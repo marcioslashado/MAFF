@@ -1,0 +1,92 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('MAFF - Módulo de Acompanhamento e Execução Física e Financeira')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                //->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/datepicker.css')
+                ->prependStylesheet($this->basePath() . '/fonts/fontastic.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/style.css')
+                ->prependStylesheet($this->basePath() . '/css/maff/bootstrap.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/maff/locales/bootstrap-datepicker.pt-BR.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap-datepicker.js')
+                ->prependFile($this->basePath() . '/js/maff/tab.js')
+                ->prependFile($this->basePath() . '/js/maff/jqGrid/js/jquery.jqGrid.min.js')
+                ->prependFile($this->basePath() . '/js/maff/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/modules/data.js')
+                ->prependFile($this->basePath() . '/js/maff/highcharts/js/highcharts.js')
+                ->prependFile($this->basePath() . '/js/maff/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/maff/jquery.min.js')
+        ;
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".container-fluid a").tooltip();
+                $(".navbar a").tooltip();
+            });
+            $(document).ajaxStart(function() {
+                $('.modal').show();
+            }).ajaxStop(function() {
+                $('.modal').hide();
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-default" role="navigation"></div>
+
+        <!-- Begin page content -->
+        <div class="container-fluid">
+            <div class="page-header">
+                <h3>Planejamento Governamental</h3>
+                <h4>Monitoramento da implementação do governo</h4>
+            </div>
+
+            <!-- Login -->
+            <div>
+                <form class="form-signin" role="form" method="post" action="index.php" name="loginform">
+                    <?php /*
+                    if (isset($login)) {
+                        if ($login->errors) {
+                            foreach ($login->errors as $error) {
+                                echo $error;
+                            }
+                        }
+                        if ($login->messages) {
+                            foreach ($login->messages as $message) {
+                                echo $message;
+                            }
+                        }
+                    }
+                     * 
+                     */
+                    ?>
+                    <h3 class="form-signin-heading">Faça Login</h3>
+                    <input id="login_input_username" name="user_name" type="text" class="form-control" placeholder="E-MAIL ou CPF" required autofocus>
+                    <input id="login_input_password" name="user_password" autocomplete="off" type="password" class="form-control" placeholder="SENHA" required>
+                    <label class="checkbox">
+                        <input type="checkbox" value="lembrar-me">
+                        Lembrar-me </label>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="login" value="Log in">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

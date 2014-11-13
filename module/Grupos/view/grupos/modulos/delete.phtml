@@ -1,0 +1,46 @@
+<?php
+$title = 'Excluir Módulo';
+$this->headTitle($title);
+?>
+<div class="container-fluid">
+    <div class="table-responsive">
+        <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+        <table class="table table-striped" id="datatable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th style="width: 150px;">Módulo</th>
+                    <th>Actions/Funções</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($modulos->r_id); ?></td>
+                        <td><?php echo $this->escapeHtml($modulos->r_amigavel); ?></td>
+                        <td>
+                            <?php
+                            $actions = explode(',', $modulos->p_amigavel);
+                            foreach ($actions as $key => $value) {
+                                echo $value . ' - ';
+                            }
+                            ?>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12 text-center">
+            <h2 class="sub-header" style="margin-bottom: 20px;">Confirma Exclusão?</h2>
+        </div>
+        <div class="col-md-12 text-center">
+            <?php $url = $this->url('modulos', array('action' => 'modulo-del', 'form_modulos' => $modulos->r_id)); ?>
+            <form action="<?php echo $url; ?>" method="post">
+                <div>
+                    <input type="hidden" name="form_modulos" value="<?php echo (int) $modulos->r_id; ?>" />
+                    <input type="submit" name="del" class="btn btn-primary" value="Confirmar" />
+                    <input type="submit" name="del" class="btn btn-danger" value="Cancelar" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
